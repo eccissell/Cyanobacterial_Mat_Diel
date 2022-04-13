@@ -9,7 +9,6 @@ date: "1/10/2021"
 #First, we will trim the DNA reads to quality 25 and trim adapters, removing reads below 100bp length, using *TRIMGALORE*
 #Trim Galore version 0.6.6
 #Cutadapt version 1.18
-#IMPORTANT NOTE: Do everything that will take longer than you want to stay on a computer on a screen (screen -S <name> to start a screen; screen -r <name> to resume that screen). Our servers are weird and even if you put the task in the background with &, it will still cancel when you terminate your connection to the server, but not on a screen.
 
 ```r
 trim_galore -q 25 --gzip --length 100 -o Diel/DNA/raw_data/D1_1 --paired Diel/DNA/raw_data/D1_1/D1_1_1.fq.gz Diel/DNA/raw_data/D1_1/D1_1_2.fq.gz &&
@@ -558,7 +557,7 @@ rm -r D4*.bt2 &&
 pigz MEGAHIT/D4/D4_5_sort.bam -p 32
 ```
 
-#We will bin with 3 different automated binning algorithms, and then combine them into a nonredundant concensus set. This will be later followed by manual curation and reassembly within each high quality bin.
+#We will bin with 3 different automated binning algorithms, and then combine them into a nonredundant concensus set. This will be later followed by manual curation
 
 #COASSEMBLY Metabat2 ver 2.15 for coassembly
 ```r
@@ -644,7 +643,7 @@ checkm lineage_wf -t 30 -x fa MEGAHIT/D3/DASTOOL/D3_dastool_DASTool_bins/ MEGAHI
 checkm lineage_wf -t 30 -x fa MEGAHIT/D4/DASTOOL/D4_dastool_DASTool_bins/ MEGAHIT/D4/CHECKM --file MEGAHIT/D4/CHECKM/D4_results.tsv
 ```
 # BIN REFINEMENT
-#ANVIO for manual curation of bins. This is a long one... it can be skipped for non-genome resolved studies, but then again, if your're here, you've probably already embarked on a genome-resolved study, so press forward.
+#ANVIO for manual curation of bins.
 
 #Step One: Generate Contig Database
 ```r
@@ -1649,5 +1648,3 @@ featureCounts -a MEGAHIT/D2/uniDRAM/genes.gff -o MEGAHIT/D2/DNA_MAPS/D2_DNA_coun
 featureCounts -a MEGAHIT/D3/uniDRAM/genes.gff -o MEGAHIT/D3/DNA_MAPS/D3_DNA_counts.tsv MEGAHIT/D3/DNA_MAPS/D3_?_sort_mag_map.bam -T 20 -F GFF -t CDS -g ID -p &&
 featureCounts -a MEGAHIT/D4/uniDRAM/genes.gff -o MEGAHIT/D4/DNA_MAPS/D4_DNA_counts.tsv MEGAHIT/D4/DNA_MAPS/D4_?_sort_mag_map.bam -T 20 -F GFF -t CDS -g ID -p
 ```
-
-##Analyses were subsequently run in R. Switch to R scripts for details on statistical analyses and visulaizations.
