@@ -164,31 +164,6 @@ Anova(sec_glm4,type="III")
 #Get pairwise contrasts
 summary(glht(sec_glm4, linfct=mcp(Mat="Tukey")))
 
-
-#This is all depricated now, but supports the GLM inference so that's cool.
-#Run some models to look for significant changes across time
-kruskal.test(TPM~Time,data=subset(SEC,Type=="NRPS" | Molecule=="R"))
-kruskal.test(TPM~Time,data=subset(SEC,Type=="NRPS" | Molecule=="D"))
-kruskal.test(TPM~Time,data=subset(SEC,Molecule=="R"))
-kruskal.test(TPM~Time,data=subset(SEC,Molecule=="D"))
-#NO SIG DIFS
-#Now try spatial dif
-kruskal.test(TPM~Mat,data=subset(SEC,Molecule=="R")) #Sig
-kruskal.test(TPM~Mat,data=subset(SEC,Molecule=="D")) #Sig
-kruskal.test(TPM~Mat,data=subset(SEC,Type=="NRPS" | Molecule=="R")) #Sig
-kruskal.test(TPM~Mat,data=subset(SEC,Type=="NRPS" | Molecule=="D")) #Sig
-#Post-Hoc pairwise
-#Create subset dataframes for these tests
-sub_R=subset(SEC,Molecule=="R")
-sub_D=subset(SEC,Molecule=="D")
-sub_R_N=subset(SEC,Type=="NRPS" | Molecule=="R")
-sub_D_N=subset(SEC,Type=="NRPS" | Molecule=="D")
-pairwise.wilcox.test(sub_R$TPM, sub_R$Mat, p.adjust.method="bonferroni")
-pairwise.wilcox.test(sub_D$TPM, sub_D$Mat, p.adjust.method="bonferroni")
-pairwise.wilcox.test(sub_D_N$TPM, sub_D_N$Mat, p.adjust.method="bonferroni")
-pairwise.wilcox.test(sub_R_N$TPM, sub_R_N$Mat, p.adjust.method="bonferroni")
-?pairwise.wilcox.test
-
 #Boxplots
 overall_box=ggplot(data=SEC,aes(y=TPM,x=Time, fill=Molecule)) +
   geom_boxplot(outlier.shape = NA,
