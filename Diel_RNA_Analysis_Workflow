@@ -1,0 +1,387 @@
+title: "Diel_RNA_Analysis_Workflow"
+author: "Ethan Cissell"
+date: "2/9/2021"
+output: html_document
+---
+# **QUALITY CONTROL**
+First, we will trim the RNA reads to quality 20 and trim adapters, removing reads below 50bp length, using *TRIMGALORE*
+Trim Galore version 0.6.6
+Cutadapt version 1.18
+IMPORTANT NOTE: Do everything that will take longer than you want to stay on a computer on a screen (screen -S <name> to start a screen; screen -r <name> to resume that screen). Our servers are weird and even if you put the task in the background with &, it will still cancel when you terminate your connection to the server, but not on a screen.
+```r
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R1_1 --paired Diel/RNA/raw_data/R1_1/R1_1_1.fq.gz Diel/RNA/raw_data/R1_1/R1_1_2.fq.gz &&
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R1_2 --paired Diel/RNA/raw_data/R1_2/R1_2_1.fq.gz Diel/RNA/raw_data/R1_2/R1_2_2.fq.gz &&
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R1_3 --paired Diel/RNA/raw_data/R1_3/R1_3_1.fq.gz Diel/RNA/raw_data/R1_3/R1_3_2.fq.gz &&
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R1_4 --paired Diel/RNA/raw_data/R1_4/R1_4_1.fq.gz Diel/RNA/raw_data/R1_4/R1_4_2.fq.gz &&
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R1_5 --paired Diel/RNA/raw_data/R1_5/R1_5_1.fq.gz Diel/RNA/raw_data/R1_5/R1_5_2.fq.gz &&
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R2_1 --paired Diel/RNA/raw_data/R2_1/R2_1_1.fq.gz Diel/RNA/raw_data/R2_1/R2_1_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R2_2 --paired Diel/RNA/raw_data/R2_2/R2_2_1.fq.gz Diel/RNA/raw_data/R2_2/R2_2_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R2_3 --paired Diel/RNA/raw_data/R2_3/R2_3_1.fq.gz Diel/RNA/raw_data/R2_3/R2_3_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R2_4 --paired Diel/RNA/raw_data/R2_4/R2_4_1.fq.gz Diel/RNA/raw_data/R2_4/R2_4_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R2_5 --paired Diel/RNA/raw_data/R2_5/R2_5_1.fq.gz Diel/RNA/raw_data/R2_5/R2_5_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R3_1 --paired Diel/RNA/raw_data/R3_1/R3_1_1.fq.gz Diel/RNA/raw_data/R3_1/R3_1_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R3_2 --paired Diel/RNA/raw_data/R3_2/R3_2_1.fq.gz Diel/RNA/raw_data/R3_2/R3_2_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R3_3 --paired Diel/RNA/raw_data/R3_3/R3_3_1.fq.gz Diel/RNA/raw_data/R3_3/R3_3_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R3_4 --paired Diel/RNA/raw_data/R3_4/R3_4_1.fq.gz Diel/RNA/raw_data/R3_4/R3_4_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R3_5 --paired Diel/RNA/raw_data/R3_5/R3_5_1.fq.gz Diel/RNA/raw_data/R3_5/R3_5_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R4_1 --paired Diel/RNA/raw_data/R4_1/R4_1_1.fq.gz Diel/RNA/raw_data/R4_1/R4_1_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R4_2 --paired Diel/RNA/raw_data/R4_2/R4_2_1.fq.gz Diel/RNA/raw_data/R4_2/R4_2_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R4_3 --paired Diel/RNA/raw_data/R4_3/R4_3_1.fq.gz Diel/RNA/raw_data/R4_3/R4_3_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R4_4 --paired Diel/RNA/raw_data/R4_4/R4_4_1.fq.gz Diel/RNA/raw_data/R4_4/R4_4_2.fq.gz &
+trim_galore -q 20 --gzip --length 50 -o Diel/RNA/raw_data/R4_5 --paired Diel/RNA/raw_data/R4_5/R4_5_1.fq.gz Diel/RNA/raw_data/R4_5/R4_5_2.fq.gz
+```
+
+Now we have to  run SortmeRNA ver 4.2.0 which has proven to be a pain to set up so I will include the steps to get the DB set-up below...
+
+# Download the sortmerna package (~2min) into sortmerna_db folder
+wget -P sortmerna_db https://github.com/biocore/sortmerna/archive/2.1b.zip
+
+# Decompress folder
+unzip sortmerna_db/2.1b.zip -d sortmerna_db
+
+# Move the database into the correct folder
+mv sortmerna_db/sortmerna-2.1b/rRNA_databases/ sortmerna_db/
+
+# Remove unnecessary folders
+rm sortmerna_db/2.1b.zip
+rm -r sortmerna_db/sortmerna-2.1b
+
+# Save the location of all the databases into one folder
+sortmernaREF=sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta,sortmerna_db/index/silva-arc-16s-id95:
+sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta,sortmerna_db/index/silva-arc-23s-id98:
+sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta,sortmerna_db/index/silva-bac-16s-id95:
+sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta,sortmerna_db/index/silva-bac-23s-id98:
+sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta,sortmerna_db/index/silva-euk-18s-id95:
+sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta,sortmerna_db/index/silva-euk-28s-id98
+
+
+Because this takes forever and I am on a time crunch for seminar, I will do the 12 samples that I directly have DNA from right now, and run the others later.
+```r
+pigz -d -p 26 Diel/RNA/raw_data/R1_1/R1_1_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R1_1/R1_1_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R1_1/sortmerna/ -reads Diel/RNA/raw_data/R1_1/R1_1_1_val_1.fq -reads Diel/RNA/raw_data/R1_1/R1_1_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R1_1_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/R1_1_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/R1_1_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/R1_1_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/R1_1_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_1/sortmerna/out/aligned_rev.fq &&
+
+pigz -d -p 26 Diel/RNA/raw_data/R1_3/R1_3_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R1_3/R1_3_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R1_3/sortmerna/ -reads Diel/RNA/raw_data/R1_3/R1_3_1_val_1.fq -reads Diel/RNA/raw_data/R1_3/R1_3_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R1_3/R1_3_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/R1_3_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/R1_3_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/R1_3_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/R1_3_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_3/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R1_5/R1_5_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R1_5/R1_5_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R1_5/sortmerna/ -reads Diel/RNA/raw_data/R1_5/R1_5_1_val_1.fq -reads Diel/RNA/raw_data/R1_5/R1_5_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R1_5/R1_5_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/R1_5_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/R1_5_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/R1_5_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/R1_5_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_5/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_1/R2_1_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_1/R2_1_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R2_1/sortmerna/ -reads Diel/RNA/raw_data/R2_1/R2_1_1_val_1.fq -reads Diel/RNA/raw_data/R2_1/R2_1_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R2_1/R2_1_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/R2_1_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/R2_1_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/R2_1_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/R2_1_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_1/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_3/R2_3_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_3/R2_3_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R2_3/sortmerna/ -reads Diel/RNA/raw_data/R2_3/R2_3_1_val_1.fq -reads Diel/RNA/raw_data/R2_3/R2_3_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R2_3/R2_3_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/R2_3_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/R2_3_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/R2_3_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/R2_3_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_3/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_5/R2_5_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R2_5/R2_5_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R2_5/sortmerna/ -reads Diel/RNA/raw_data/R2_5/R2_5_1_val_1.fq -reads Diel/RNA/raw_data/R2_5/R2_5_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R2_5/R2_5_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/R2_5_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/R2_5_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/R2_5_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/R2_5_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_5/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_1/R3_1_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_1/R3_1_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R3_1/sortmerna/ -reads Diel/RNA/raw_data/R3_1/R3_1_1_val_1.fq -reads Diel/RNA/raw_data/R3_1/R3_1_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R3_1/R3_1_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/R3_1_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/R3_1_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/R3_1_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/R3_1_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_1/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_3/R3_3_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_3/R3_3_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R3_3/sortmerna/ -reads Diel/RNA/raw_data/R3_3/R3_3_1_val_1.fq -reads Diel/RNA/raw_data/R3_3/R3_3_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R3_3/R3_3_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/R3_3_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/R3_3_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/R3_3_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/R3_3_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_3/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_5/R3_5_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R3_5/R3_5_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R3_5/sortmerna/ -reads Diel/RNA/raw_data/R3_5/R3_5_1_val_1.fq -reads Diel/RNA/raw_data/R3_5/R3_5_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R3_5/R3_5_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/R3_5_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/R3_5_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/R3_5_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/R3_5_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_5/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_1/R4_1_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_1/R4_1_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R4_1/sortmerna/ -reads Diel/RNA/raw_data/R4_1/R4_1_1_val_1.fq -reads Diel/RNA/raw_data/R4_1/R4_1_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R4_1/R4_1_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/R4_1_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/R4_1_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/R4_1_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/R4_1_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_1/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_3/R4_3_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_3/R4_3_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R4_3/sortmerna/ -reads Diel/RNA/raw_data/R4_3/R4_3_1_val_1.fq -reads Diel/RNA/raw_data/R4_3/R4_3_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R4_3/R4_3_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/R4_3_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/R4_3_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/R4_3_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/R4_3_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_3/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_5/R4_5_1_val_1.fq.gz &&
+pigz -d -p 26 Diel/RNA/raw_data/R4_5/R4_5_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R4_5/sortmerna/ -reads Diel/RNA/raw_data/R4_5/R4_5_1_val_1.fq -reads Diel/RNA/raw_data/R4_5/R4_5_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other Diel/RNA/raw_data/R4_5/R4_5_cleaned --threads 36 --fastx --out2 --paired_in -m 400 -v &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/R4_5_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/R4_5_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/R4_5_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/R4_5_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_5/sortmerna/out/aligned_rev.fq
+```
+Run FastQC on the outputs
+```r
+fastqc Diel/RNA/raw_data/R1_1/sortmerna/out/R1_1_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_1/sortmerna/out/R1_1_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R1_3/R1_3_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_3/R1_3_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R1_5/R1_5_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_5/R1_5_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R2_1/R2_1_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_1/R2_1_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R2_3/R2_3_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_3/R2_3_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R2_5/R2_5_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_5/R2_5_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R3_1/R3_1_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_1/R3_1_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R3_3/R3_3_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_3/R3_3_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R3_5/R3_5_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_5/R3_5_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R4_1/R4_1_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_1/R4_1_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R4_3/R4_3_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_3/R4_3_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R4_5/R4_5_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_5/R4_5_cleaned_rev.fq.gz -t 3 &&
+```
+
+Use KAT to look for broad differences in k-mer among all pairwise combinations
+```r
+kat comp -t 26 -o RX_1_vs_RX_2 'Diel/DNA/raw_data/D1_1/*.fq.gz' MEGAHIT/D1/final.contigs.fa &&
+kat plot spectra-cn D1_1_vs_coassemble-main.mx -o D1_1.png -y 900000 -x 150 &&
+```
+
+We will use Humann2 for a broad functional profile. This may or may not be included in the final pub, as we are also going to map the RNA to the MAGs.We have to concatenate the forward and reverse reads into a single file as input becuase Humann2 cannot accept paired-end reads
+
+First we have to profile the DNA to standardize the RNA expression. For speed prior to the seminar, I will not concatenate the reads.
+```r
+humann --input Diel/RNA/raw_data/R1_1/sortmerna/out/R1_1_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R1_1/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R1_3/R1_3_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R1_3/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R1_5/R1_5_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R1_5/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R2_1/R2_1_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R2_1/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R2_3/R2_3_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R2_3/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R2_5/R2_5_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R2_5/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R3_1/R3_1_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R3_1/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R3_3/R3_3_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R3_3/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R3_5/R3_5_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R3_5/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R4_1/R4_1_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R4_1/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R4_3/R4_3_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R4_3/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search &&
+humann --input Diel/RNA/raw_data/R4_5/R4_5_cleaned_fwd.fq.gz --output Diel/RNA/raw_data/R4_5/HUMAN --memory-use maximum --threads 36 --remove-temp-output --remove-stratified-output --bypass-prescreen --bypass-nucleotide-index --bypass-nucleotide-search
+```
+Renormalize the tables to Transcripts per million
+```r
+humann_renorm_table --input Diel/RNA/raw_data/R1_1/HUMAN/R1_1_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R1_1/HUMAN/R1_1_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R1_1/HUMAN/R1_1_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R1_1/HUMAN/R1_1_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R1_3/HUMAN/R1_3_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R1_3/HUMAN/R1_3_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R1_3/HUMAN/R1_3_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R1_3/HUMAN/R1_3_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R1_5/HUMAN/R1_5_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R1_5/HUMAN/R1_5_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R1_5/HUMAN/R1_5_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R1_5/HUMAN/R1_5_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_1/HUMAN/R2_1_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R2_1/HUMAN/R2_1_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_1/HUMAN/R2_1_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R2_1/HUMAN/R2_1_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_3/HUMAN/R2_3_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R2_3/HUMAN/R2_3_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_3/HUMAN/R2_3_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R2_3/HUMAN/R2_3_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_5/HUMAN/R2_5_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R2_5/HUMAN/R2_5_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R2_5/HUMAN/R2_5_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R2_5/HUMAN/R2_5_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_1/HUMAN/R3_1_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R3_1/HUMAN/R3_1_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_1/HUMAN/R3_1_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R3_1/HUMAN/R3_1_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_3/HUMAN/R3_3_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R3_3/HUMAN/R3_3_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_3/HUMAN/R3_3_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R3_3/HUMAN/R3_3_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_5/HUMAN/R3_5_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R3_5/HUMAN/R3_5_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R3_5/HUMAN/R3_5_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R3_5/HUMAN/R3_5_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_1/HUMAN/R4_1_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R4_1/HUMAN/R4_1_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_1/HUMAN/R4_1_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R4_1/HUMAN/R4_1_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_3/HUMAN/R4_3_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R4_3/HUMAN/R4_3_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_3/HUMAN/R4_3_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R4_3/HUMAN/R4_3_cpm_path.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_5/HUMAN/R4_5_cleaned_fwd_genefamilies.tsv --units cpm --output Diel/RNA/raw_data/R4_5/HUMAN/R4_5_cpm_genes.tsv -s n &&
+humann_renorm_table --input Diel/RNA/raw_data/R4_5/HUMAN/R4_5_cleaned_fwd_pathabundance.tsv --units cpm --output Diel/RNA/raw_data/R4_5/HUMAN/R4_5_cpm_path.tsv -s n
+```
+
+Attach names from MetaCyc Reaction names to gene tables
+```r
+humann_rename_table --input Diel/RNA/raw_data/R1_1/HUMAN/R1_1_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R1_1/HUMAN/R1_1_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R1_3/HUMAN/R1_3_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R1_3/HUMAN/R1_3_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R1_5/HUMAN/R1_5_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R1_5/HUMAN/R1_5_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R2_1/HUMAN/R2_1_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R2_1/HUMAN/R2_1_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R2_3/HUMAN/R2_3_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R2_3/HUMAN/R2_3_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R2_5/HUMAN/R2_5_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R2_5/HUMAN/R2_5_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R3_1/HUMAN/R3_1_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R3_1/HUMAN/R3_1_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R3_3/HUMAN/R3_3_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R3_3/HUMAN/R3_3_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R3_5/HUMAN/R3_5_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R3_5/HUMAN/R3_5_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R4_1/HUMAN/R4_1_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R4_1/HUMAN/R4_1_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R4_3/HUMAN/R4_3_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R4_3/HUMAN/R4_3_Names_cpm_genes.tsv -s &&
+humann_rename_table --input Diel/RNA/raw_data/R4_5/HUMAN/R4_5_cpm_genes.tsv --names uniref90 --output Diel/RNA/raw_data/R4_5/HUMAN/R4_5_Names_cpm_genes.tsv -s
+```
+Combine all the paths together
+```r
+humann_join_tables --input HUMAN_OUT/path --output HUMAN_OUT/path/joined_diel_RNA_path.tsv &&
+humann_join_tables --input HUMAN_OUT/gene --output HUMAN_OUT/gene/joined_diel_RNA_gene.tsv
+```
+
+Run SortMeRNA on the other samples with fewer cores so I can still do stuff
+```r
+pigz -d -p 12 Diel/RNA/raw_data/R1_2/R1_2_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R1_2/R1_2_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R1_2/sortmerna/ -reads Diel/RNA/raw_data/R1_2/R1_2_1_val_1.fq -reads Diel/RNA/raw_data/R1_2/R1_2_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R1_2_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/R1_2_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/R1_2_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/R1_2_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/R1_2_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_2/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R1_4/R1_4_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R1_4/R1_4_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R1_4/sortmerna/ -reads Diel/RNA/raw_data/R1_4/R1_4_1_val_1.fq -reads Diel/RNA/raw_data/R1_4/R1_4_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R1_4_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/R1_4_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/R1_4_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/R1_4_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/R1_4_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R1_4/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R2_2/R2_2_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R2_2/R2_2_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R2_2/sortmerna/ -reads Diel/RNA/raw_data/R2_2/R2_2_1_val_1.fq -reads Diel/RNA/raw_data/R2_2/R2_2_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R2_2_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/R2_2_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/R2_2_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/R2_2_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/R2_2_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_2/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R2_4/R2_4_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R2_4/R2_4_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R2_4/sortmerna/ -reads Diel/RNA/raw_data/R2_4/R2_4_1_val_1.fq -reads Diel/RNA/raw_data/R2_4/R2_4_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R2_4_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/R2_4_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/R2_4_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/R2_4_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/R2_4_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R2_4/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R3_2/R3_2_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R3_2/R3_2_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R3_2/sortmerna/ -reads Diel/RNA/raw_data/R3_2/R3_2_1_val_1.fq -reads Diel/RNA/raw_data/R3_2/R3_2_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R3_2_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/R3_2_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/R3_2_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/R3_2_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/R3_2_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_2/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R3_4/R3_4_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R3_4/R3_4_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R3_4/sortmerna/ -reads Diel/RNA/raw_data/R3_4/R3_4_1_val_1.fq -reads Diel/RNA/raw_data/R3_4/R3_4_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R3_4_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/R3_4_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/R3_4_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/R3_4_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/R3_4_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R3_4/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R4_2/R4_2_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R4_2/R4_2_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R4_2/sortmerna/ -reads Diel/RNA/raw_data/R4_2/R4_2_1_val_1.fq -reads Diel/RNA/raw_data/R4_2/R4_2_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R4_2_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/R4_2_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/R4_2_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/R4_2_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/R4_2_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_2/sortmerna/out/aligned_rev.fq &&
+pigz -d -p 12 Diel/RNA/raw_data/R4_4/R4_4_1_val_1.fq.gz &&
+pigz -d -p 12 Diel/RNA/raw_data/R4_4/R4_4_2_val_2.fq.gz &&
+sortmerna -workdir Diel/RNA/raw_data/R4_4/sortmerna/ -reads Diel/RNA/raw_data/R4_4/R4_4_1_val_1.fq -reads Diel/RNA/raw_data/R4_4/R4_4_2_val_2.fq -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-16s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-16s-id90.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-arc-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-bac-23s-id98.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-18s-id95.fasta -ref sortmerna_db/sortmerna_db/rRNA_databases/silva-euk-28s-id98.fasta --other R4_4_cleaned --threads 12 --fastx --out2 --paired_in -m 200 -v &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/R4_4_1_val_1.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/R4_4_2_val_2.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/R4_4_cleaned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/R4_4_cleaned_rev.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/sortmerna/out/aligned_fwd.fq &&
+pigz -p 26 Diel/RNA/raw_data/R4_4/sortmerna/out/aligned_rev.fq
+```
+
+Run FastQC on the outputs
+```r
+mv R1_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_2/R1_2_cleaned_fwd.fq.gz &&
+mv R1_2_cleaned_rev.fq.gz Diel/RNA/raw_data/R1_2/R1_2_cleaned_rev.fq.gz &&
+mv R1_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_4/R1_4_cleaned_fwd.fq.gz &&
+mv R1_4_cleaned_rev.fq.gz Diel/RNA/raw_data/R1_4/R1_4_cleaned_rev.fq.gz &&
+mv R2_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_2/R2_2_cleaned_fwd.fq.gz &&
+mv R2_2_cleaned_rev.fq.gz Diel/RNA/raw_data/R2_2/R2_2_cleaned_rev.fq.gz &&
+mv R2_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_4/R2_4_cleaned_fwd.fq.gz &&
+mv R2_4_cleaned_rev.fq.gz Diel/RNA/raw_data/R2_4/R2_4_cleaned_rev.fq.gz &&
+mv R3_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_2/R3_2_cleaned_fwd.fq.gz &&
+mv R3_2_cleaned_rev.fq.gz Diel/RNA/raw_data/R3_2/R3_2_cleaned_rev.fq.gz &&
+mv R3_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_4/R3_4_cleaned_fwd.fq.gz &&
+mv R3_4_cleaned_rev.fq.gz Diel/RNA/raw_data/R3_4/R3_4_cleaned_rev.fq.gz &&
+mv R4_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_2/R4_2_cleaned_fwd.fq.gz &&
+mv R4_2_cleaned_rev.fq.gz Diel/RNA/raw_data/R4_2/R4_2_cleaned_rev.fq.gz &&
+mv R4_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_4/R4_4_cleaned_fwd.fq.gz &&
+mv R4_4_cleaned_rev.fq.gz Diel/RNA/raw_data/R4_4/R4_4_cleaned_rev.fq.gz
+
+
+fastqc Diel/RNA/raw_data/R1_2/R1_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_2/R1_2_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R1_4/R1_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R1_4/R1_4_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R2_2/R2_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_2/R2_2_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R2_4/R2_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R2_4/R2_4_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R3_2/R3_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_2/R3_2_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R3_4/R3_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R3_4/R3_4_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R4_2/R4_2_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_2/R4_2_cleaned_rev.fq.gz -t 3 &&
+fastqc Diel/RNA/raw_data/R4_4/R4_4_cleaned_fwd.fq.gz Diel/RNA/raw_data/R4_4/R4_4_cleaned_rev.fq.gz -t 3
+```
+Use KAT to compare RNA read sets among times
+```r
+kat comp -t 26 -o R1_vs_2 'Diel/RNA/raw_data/R?_1/*.fq.gz' 'Diel/RNA/raw_data/R?_1/*.fq.gz' &&
+kat plot density R1_vs_2-main.mx -o R1_vs_2.png  &&
+kat comp -t 26 -o R1_vs_3 'Diel/RNA/raw_data/R?_1/*.fq.gz' 'Diel/RNA/raw_data/R?_3/*.fq.gz' &&
+kat plot density R1_vs_3-main.mx -o R1_vs_3.png  &&
+kat comp -t 26 -o R1_vs_4 'Diel/RNA/raw_data/R?_1/*.fq.gz' 'Diel/RNA/raw_data/R?_4/*.fq.gz' &&
+kat plot density R1_vs_4-main.mx -o R1_vs_4.png  &&
+kat comp -t 26 -o R1_vs_5 'Diel/RNA/raw_data/R?_1/*.fq.gz' 'Diel/RNA/raw_data/R?_5/*.fq.gz' &&
+kat plot density R1_vs_5-main.mx -o R1_vs_5.png  &&
+kat comp -t 26 -o R2_vs_3 'Diel/RNA/raw_data/R?_2/*.fq.gz' 'Diel/RNA/raw_data/R?_3/*.fq.gz' &&
+kat plot density R2_vs_3-main.mx -o R2_vs_3.png  &&
+kat comp -t 26 -o R2_vs_4 'Diel/RNA/raw_data/R?_2/*.fq.gz' 'Diel/RNA/raw_data/R?_4/*.fq.gz' &&
+kat plot density R2_vs_4-main.mx -o R2_vs_4.png  &&
+kat comp -t 26 -o R2_vs_5 'Diel/RNA/raw_data/R?_2/*.fq.gz' 'Diel/RNA/raw_data/R?_5/*.fq.gz' &&
+kat plot density R2_vs_5-main.mx -o R2_vs_5.png  &&
+kat comp -t 26 -o R3_vs_4 'Diel/RNA/raw_data/R?_3/*.fq.gz' 'Diel/RNA/raw_data/R?_4/*.fq.gz' &&
+kat plot density R3_vs_4-main.mx -o R3_vs_4.png  &&
+kat comp -t 26 -o R3_vs_5 'Diel/RNA/raw_data/R?_3/*.fq.gz' 'Diel/RNA/raw_data/R?_5/*.fq.gz' &&
+kat plot density R3_vs_5-main.mx -o R3_vs_5.png  &&
+kat comp -t 26 -o R4_vs_5 'Diel/RNA/raw_data/R?_4/*.fq.gz' 'Diel/RNA/raw_data/R?_5/*.fq.gz' &&
+kat plot density R4_vs_5-main.mx -o R4_vs_5.png  &&
+```
+
+MOVE TO DIEL DNA FOR MAPPING TO MAGS AND EXTRACTING COUNTS}
