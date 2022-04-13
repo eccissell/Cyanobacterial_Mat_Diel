@@ -100,85 +100,6 @@ library(microbiome)
 phylo_clr=microbiome::transform(phylo_object, transform='clr',target="sample")
 #otu_table(phylo_clr)[otu_table(phylo_clr) < 0.0] <- 0.0
 
-#NMDS Analysis
-phylo_clr_nmds<- ordinate(phylo_clr, method = "NMDS", distance="euclidean")
-phylo_clr_nmds
-#Shepards test/goodness of fit NMDS
-goodness(phylo_clr_nmds)
-stressplot(phylo_clr_nmds,
-           las=1,
-           pch=19,
-           cex=1,
-           lwd=3)
-dev.print(png,fil="/Users/cissell/Desktop/stress.png",type="quartz",antialias="default",width=6.5,
-          height=6.5,units="in",res=1300)
-
-#Create score matrix
-data.scores=as.data.frame(scores(phylo_clr_nmds))
-agev=c("1","3","5","1","3","5","1","3","5","1","3","5")
-matv=c("1","1","1","2","2","2","3","3","3","4","4","4")
-data.scores$Age=agev
-data.scores$Mat=matv
-#Make hull vectors and hull data frame for plotting polygons
-age.1 = data.scores[data.scores$Age == "1",][chull(data.scores[data.scores$Age=="1",c("NMDS1","NMDS2")]),]
-age.2=data.scores[data.scores$Age == "3",][chull(data.scores[data.scores$Age=="3",c("NMDS1","NMDS2")]),]
-age.3=data.scores[data.scores$Age == "5",][chull(data.scores[data.scores$Age=="5",c("NMDS1","NMDS2")]),]
-hull.data=rbind(age.1,age.2,age.3)
-hull.data
-#Plot NMDS
-nmds=plot_ordination(phylo_clr, phylo_clr_nmds,
-                    color = "Age", shape = "Mat") +
-  theme_classic() +geom_point(size=5.9)+
-  scale_color_manual(values=c("#90a295","#455765","#cd9fb2"))+
-  scale_shape_manual(values=c(19,17,15,18))+
-  theme(axis.text = element_text(size=15,color="black"),
-        axis.title=element_text(size=15,color="black"),
-        axis.line = element_line(size=1.1))+
-  guides(shape=guide_legend(override.aes=list(size=5)))
-  
-#nmds = nmds +
-#  geom_polygon(data=hull.data,aes(x=NMDS1,y=NMDS2))
-
-nmds
-
-
-ggplot()+
-  geom_text(data=species.scores,aes)
-
-#Try plotting from raw scores
-nmds2=ggplot() +
-  geom_polygon(data=hull.data,
-               aes(x=NMDS1,y=NMDS2,fill=Age,group=Age),
-               alpha=0.4)+
-  geom_polygon(data=data.scores,
-               aes(x=NMDS1,y=NMDS2, group=Mat),
-               size=1,
-               linetype=3, 
-               fill=NA,
-               colour="#333333")+
-  geom_point(data=data.scores,aes(x=NMDS1,y=NMDS2, shape=Mat,colour=Age),size=6) +
-  scale_color_manual(values=c("#90a295","#455765","#cd9fb2"),name="Time") +
-  scale_fill_manual(values=c("1"="#90a295","3"="#455765","5"="#cd9fb2")) +
-  scale_shape_manual(values=c(19,17,15,18))+
-  coord_equal()+
-  theme_classic() +
-  theme(axis.text = element_text(size=15,color="black"),
-        axis.title=element_text(size=15,color="black"),
-        axis.line = element_line(size=1.1)) +
-  guides(fill=FALSE) +
-  guides(shape=guide_legend(override.aes=list(size=5,color="#333333")))+
-  guides(colour=guide_legend(override.aes=list(size=5)))+
-  annotate(geom="text",x=1.3,y=-1.5, label="Stress = 0.125", color="black",size=5)+
-  annotate(geom="text",x=0,y=-1, label="3", color="#333333",size=5)+
-  annotate(geom="text",x=0.78,y=-0.42, label="1", color="#333333",size=5)+
-  annotate(geom="text",x=-0.8,y=0.2, label="4", color="#333333",size=5)+
-  annotate(geom="text",x=0.3,y=1.25, label="2", color="#333333",size=5)
-nmds2
-
-dev.print(png,fil="nmds2.png",type="quartz",antialias="default",width=6.5,
-          height=5.5,units="in",res=1300)
-
-
 #NMDS on raw dataframe for species overlays
 #MAke dataframe
 nmds_df=psmelt(phylo_clr)
@@ -217,31 +138,7 @@ str(sig.sp.sc)
 row.names(sig.sp.sc)=NULL
 sig.sp.sc$Orders=as.character(sig.sp.sc$Orders)
 
-#DEPRICATED Rename orders with codes for pretty plotting 
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Caulobacterales'] <- 'Ca'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Chroococcales'] <- 'Ch'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Corynebacteriales'] <- 'Co'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Gemmatales'] <- 'Ge'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Gemmatimonadales'] <- 'Gd'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Lactobacillales'] <- 'La'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Micrococcales'] <- 'Mi'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Micromonosporales'] <- 'Ms'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Myxococcales'] <- 'My'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Nostocales'] <- 'No'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Oscillatoriales'] <- 'Os'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Pirellulales'] <- 'Pi'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Planctomycetales'] <- 'Pl'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Pleurocapsales'] <- 'Pe'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Propionibacteriales'] <- 'Pr'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Pseudonocardiales'] <- 'Ps'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Sporadotrichida'] <- 'Sp'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Streptomycetales'] <- 'St'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Streptosporangiales'] <- 'Ss'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Synechococcales'] <- 'Sy'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Thalassiosirales'] <- 'Th'
-sig.sp.sc$Orders[sig.sp.sc$Orders == 'Xanthomonadales'] <- 'Xa'
-
-#Add phylum/class column (check every time this is rerun) for plotting by color
+#Add phylum/class column for plotting by color
 sig.sp.sc=sig.sp.sc%>%
   mutate(Phylum=c("Alphaproteobacteria",
                   "Cyanobacteria",
@@ -465,7 +362,7 @@ permanova #Time significant
 pair_perm=pairwiseAdonis::pairwise.adonis(diel_betapart_nest, factors=tt_grp$Time, sim.method="sorenson")
 pair_perm #1v3
 
-#Examine NMDS of this s
+#Examine NMDS
 time_soren_nest_nmds=metaMDS(diel_betapart_nest,distance="sorenson",weakties=F)
 time_soren_nest_nmds
 stressplot(time_soren_nest_nmds,
@@ -519,9 +416,6 @@ permanova #Time significant
 
 #Look for nestedness as evidence of succesioanl reset by time
 
-
-
-
 #PCA Analysis
 phylo_clr_rda<- ordinate(phylo_clr, method = "RDA", distance="euclidean")
 phylo_clr_rda
@@ -537,27 +431,6 @@ dev.print(png,fil="/Users/cissell/Desktop/scree.png",type="quartz",antialias="de
           height=6.5,units="in",res=1300)
 
 head(phylo_clr_rda$CA$eig)   
-
-#PCA plot with circles around age (white background)
-clr1 <- phylo_clr_rda$CA$eig[1] / sum(phylo_clr_rda$CA$eig)
-clr2 <- phylo_clr_rda$CA$eig[2] / sum(phylo_clr_rda$CA$eig)
-ord=plot_ordination(phylo_clr, phylo_clr_rda,
-                     color = "Age", shape = "Mat") +
-  theme_classic()
-ord=ord+geom_point(size=5.9)+
-  #stat_ellipse(aes(group = Age), linetype = 2, size=1.4, type="t")+
-  coord_fixed(clr2 / clr1) +
-  scale_color_manual(values=c("#90a295","#455765","#cd9fb2"))+
-  #scale_color_manual(values=c("#acbad5","#e5d0b3"))+ #other two colors for RNA with 5 times
-  #scale_color_manual(values=c("#87a8e2","#fea7ab","#fed1a2"))+ #Red, blue, yellow pastel
-  scale_shape_manual(values=c(19,17,15,18))+
-  theme(axis.text = element_text(size=15,color="black"),
-        axis.title=element_text(size=15,color="black"),
-        axis.line = element_line(size=1.1))+
-  guides(shape=guide_legend(override.aes=list(size=5)))
-ord
-dev.print(png,fil="ordination.png",type="quartz",antialias="default",width=6.5,
-          height=6.5,units="in",res=1300)
 
 
 #Create distance matrix from clr
@@ -660,99 +533,8 @@ heatmap(otu_table(phylo_clr),Rowv=NA,col=viridis(100), scale="column")
 ###Lets look at an association metric that replaces Pearson's correlation coefficient (proportianlity in propr package)
 library(propr)
 
-###DEPRICATED Use ALDEx2 to get differential abundance
-library(ALDEx2)
-conflict_prefer("mutate", "dplyr")
-#set conditions list corresponding to order in otu_mat (input matrix)
-conds=c("1","3","1","3","1","3","1","3")
-#Create pairwise matrix, dropping all _5
-otu_mat_2=subset(otu_mat,select=-c(D1_5,D2_5,D3_5,D4_5))
-#Run ALDEx2
-diff=aldex(otu_mat_2,conds,mc.samples=128,effect=TRUE,denom="all",verbose=TRUE,CI=T)
-#Subset by significance (authors recommend effect size > |1| over p value)
-sig_dif=subset(diff, effect >1 | effect < (-1))
-#Create new column from rownames
-sig_dif$row=row.names(sig_dif)
-#Separate those into identifier columns
-sig_dif=separate(sig_dif,row, c("Domain", "Phylum", "Class", "Order"),";")
-#Sort by effect
-sig_dif=sig_dif[order(sig_dif$effect),]
-View(sig_dif)
-#Reorder factor levels
-sig_dif$Order=factor(sig_dif$Order, levels=(sig_dif$Order))
 
-#plot sig dif
-sig_dif_plot=ggplot(sig_dif,aes(x=effect,y=Order))+
-  geom_point() +
-  theme_classic()+
-  xlab("Effect") +
-  ylab("Order")+
-  theme(axis.text = element_text(size=12,color="black"),
-        axis.title=element_text(size=15,color="black"),
-        axis.line = element_line(size=1.1),
-        axis.ticks.length=unit(4,"pt"))+
-  theme(axis.title.y = element_text(margin =
-                                      margin(t = 0, r = 8, b = 0, l = 0)))+
-  labs(y= "Order",
-       fill= "Change")+
-  scale_fill_manual(values=c("#90a295","#455765"))
-sig_dif_plot
-dev.print(png,fil="/Users/cissell/Desktop/diff_abund.png",type="quartz",antialias="default",width=6.5,
-          height=8.5,units="in",res=1300)
-
-
-#Run all again for 1 v 5 
-conds2=c("1","5","1","5","1","5","1","5")
-#Create pairwise matrix, dropping all _3
-otu_mat_3=subset(otu_mat,select=-c(D1_3,D2_3,D3_3,D4_3))
-#Run ALDEx2
-diff2=aldex(otu_mat_3,conds2,mc.samples=128,effect=TRUE,denom="all",verbose=TRUE)
-View(diff2) #None sig diff
-#Subset by significance (authors recommend effect size > |1| over p value)
-sig_dif2=subset(diff2, effect >1| effect < (-1))
-#Create new column from rownames
-sig_dif2$row=row.names(sig_dif2)
-#Separate those into identifier columns
-sig_dif2=separate(sig_dif2,row, c("Domain", "Phylum", "Class", "Order"),";")
-#Sort by effect
-sig_dif2=sig_dif2[order(sig_dif2$effect),]
-View(sig_dif2)
-
-
-
-#Run all again for 3 v 5
-conds3=c("3","5","3","5","3","5","3","5")
-#Create pairwise matrix, dropping all _1
-otu_mat_4=subset(otu_mat,select=-c(D1_1,D2_1,D3_1,D4_1))
-#Run ALDEx2
-diff3=aldex(otu_mat_4,conds3,mc.samples=128,effect=TRUE,denom="all",verbose=TRUE)
-View(sig_dif3)
-#Subset by significance (authors recommend effect size > |1| over p value)
-sig_dif3=subset(diff3, effect >1 | effect < (-1))
-#Create new column from rownames
-sig_dif3$row=row.names(sig_dif3)
-#Separate those into identifier columns
-sig_dif3=separate(sig_dif3,row, c("Domain", "Phylum", "Class", "Order"),";")
-#Sort by effect
-sig_dif3=sig_dif3[order(sig_dif3$effect),]
-#Plot
-sig_dif_plot2=ggplot(sig_dif3,aes(x=effect,y=reorder(Order,acsd(effect))))+
-  geom_point() +
-  theme_classic()+
-  xlab("Effect") +
-  ylab("Order")+
-  theme(axis.text = element_text(size=12,color="black"),
-        axis.title=element_text(size=15,color="black"),
-        axis.line = element_line(size=1.1),
-        axis.ticks.length=unit(4,"pt"))+
-  theme(axis.title.y = element_text(margin =
-                                      margin(t = 0, r = 8, b = 0, l = 0)))+
-  labs(y= "Order",
-       fill= "Change")+
-  scale_fill_manual(values=c("#90a295","#455765"))
-sig_dif_plot2
-
-#We can also do a density plot of all of the pairwise distances (modified circa that nature diel coral pub that does it with dots instead, but mine is better)
+#We can also do a density plot of all of the pairwise distances
 #First get a dataframe with the distances
 dist_data=as.data.frame(as.matrix(clr_dist_matrix))
 #Write that out to a csv
@@ -1033,16 +815,6 @@ stacked_bar
 dev.print(png,fil="stackedbar.png",type="quartz",antialias="default",width=5.5,
           height=5.5,units="in",res=1300)
 
-
-#Now let's make a boxplot of viral abundance over time
-#First backtransform clr dataset
-viral_diel_df=psmelt(phylo_clr)
-str(viral_diel_df)
-viral_diel=ggplot(data=subset(viral_diel_df,Phylum==' Viruses'),
-                  aes(x=Age, y=Abundance)) +
-  geom_boxplot(aes(x=Age, y=Abundance))
-viral_diel                  
-             
 #Let's make a dendrogram of the samples 
 install.packages("ggdendro")
 install.packages("dendextend")
@@ -1094,7 +866,6 @@ taxa<- otu %>%
   separate(taxon_name, c("Domain", "Phylum"),
            ";")
 str(taxa)
-
 
 
 #Delete redundant 1st column
